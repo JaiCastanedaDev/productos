@@ -8,7 +8,7 @@
 
 <body>
     <h1>Actualizar Producto</h1>
-    <form action="{{ route('productos.update', $producto->id) }}" method="POST">
+    <form action="{{ route('productos.update', $producto) }}" method="POST">
         @csrf
         @method('PUT')
         <div>
@@ -27,10 +27,13 @@
             <label for="stock">Stock:</label>
             <input type="number" id="stock" name="stock" value="{{ $producto->stock }}" required>
         </div>
-        <div>
-            <label for="fecha_de_creacion">Fecha de creación:</label>
-            <input type="date" id="fecha_de_creacion" name="fecha_de_creacion" value="{{ $producto->fecha_de_creacion }}" required>
-        </div>
+        <input
+            type="date"
+            id="fecha_de_creacion"
+            name="fecha_de_creacion"
+            value="{{ \Carbon\Carbon::parse($producto->fecha_de_creacion)->format('Y-m-d') }}"
+            required
+        >
         <button type="submit">Actualizar Producto</button>
     </form>
 </body>

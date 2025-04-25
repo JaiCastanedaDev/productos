@@ -29,13 +29,15 @@ class ProductoController extends Controller
      */
     public function store(Request $request)
     {
+        $productos = Producto::all();
         $request->validate(['nombre' => 'required', 'referencia' => 'required',
             'precio' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'fecha_de_creacion' => 'required|date']);
 
         Producto::create($request->all());
-        return view('producto.index')->with('success', 'Producto creado correctamente.');
+        return view('producto.index')->with('success', 'Producto creado correctamente.')
+            ->with('productos', $productos);
     }
 
     /**
@@ -51,7 +53,6 @@ class ProductoController extends Controller
      */
     public function edit(Producto $producto)
     {
-        dd($producto);
         return view('producto.edit', compact('producto'));
     }
 
@@ -64,10 +65,8 @@ class ProductoController extends Controller
             'precio' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'fecha_de_creacion' => 'required|date']);
-
         $producto->update($request->all());
-
-        return redirect()->route('producto.index')->with('success', 'Producto actualizado correctamente.');
+        return redirect()->route('producto')->with('success', 'Producto actualizado correctamente.');
     }
 
     /**
@@ -76,5 +75,7 @@ class ProductoController extends Controller
     public function destroy(Producto $producto)
     {
         $producto->delete();
+        return redirect()->route('producto')->with('success', 'Producto actualizado correctamente.');
+
     }
 }
